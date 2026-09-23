@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)file:///Users/dr.samirasavoury/Downloads/skills_to_career_alignment_v2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills-to-Career Alignment Tool — Version 2</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #1f2933;
+    line-height: 1.5;
+  }
+  header {
+    background: #183b56;
+    color: white;
+    padding: 28px 20px;
+  }
+  header div, main { max-width: 920px; margin: auto; }
+  header h1 { margin: 0 0 8px; }
+  header p { margin: 0; max-width: 760px; }
+  main { padding: 28px 20px 50px; }
+  .card {
+    background: white;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 20px;
+  }
+  h2 { color: #183b56; margin-top: 0; }
+  label {
+    display: block;
+    font-weight: bold;
+    margin: 16px 0 6px;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #9fb3c8;
+    border-radius: 6px;
+    font: inherit;
+  }
+  textarea { min-height: 105px; resize: vertical; }
+  input:focus, textarea:focus, button:focus {
+    outline: 3px solid #9fb3c8;
+    outline-offset: 2px;
+  }
+  .help {
+    color: #52667a;
+    font-size: .92rem;
+    margin-top: 4px;
+  }
+  button {
+    margin-top: 20px;
+    border: 0;
+    border-radius: 6px;
+    padding: 12px 18px;
+    background: #176b87;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover { background: #12566d; }
+  #results { display: none; }
+  .skill-row {
+    border-top: 1px solid #d9e2ec;
+    padding: 14px 0;
+  }
+  .skill-row:first-child { border-top: 0; }
+  .skill-name { font-weight: bold; color: #183b56; }
+  .status {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: #eef2f6;
+    font-size: .88rem;
+  }
+  .reflection {
+    background: #eef6f8;
+    border-left: 4px solid #176b87;
+    padding: 14px 18px;
+    margin-top: 18px;
+  }
+  .error-summary {
+    display: none;
+    background: #fff4f4;
+    border: 2px solid #b42318;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 14px 0 4px;
+  }
+  .error-summary:focus { outline: 3px solid #9fb3c8; outline-offset: 2px; }
+  .field-error { border: 2px solid #b42318; }
+  .note {
+    background: #fff8e6;
+    border-left: 4px solid #d99b18;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Skills-to-Career Alignment Tool</h1>
+    <p>Connect evidence from your coursework and academic projects to skills employers request.</p>
+  </div>
+</header>
+
+<main>
+  <section class="card" aria-labelledby="instructions">
+    <h2 id="instructions">How to use this tool</h2>
+    <p>Describe one educational experience and what you personally did. Then enter skills or requirements from a job description. The tool will look for possible connections between your evidence and those employer-requested skills.</p>
+    <div class="note"><strong>Important:</strong> A possible match does not prove that you possess a skill. Review each result and decide whether your experience provides enough evidence to support the connection.</div>
+  </section>
+
+  <form id="alignmentForm" class="card" novalidate="">
+    <h2>Your educational experience</h2>
+
+    <label for="project">Course or project name <span aria-hidden="true">*</span></label>
+    <input id="project" type="text" required="" aria-required="true" placeholder="Example: Introduction to Marketing — Market Analysis Project">
+
+    <label for="experience">Describe the assignment or educational experience <span aria-hidden="true">*</span></label>
+    <textarea id="experience" required="" aria-required="true" placeholder="What was the assignment or project about?"></textarea>
+
+    <label for="actions">What did you personally do? <span aria-hidden="true">*</span></label>
+    <textarea id="actions" required="" aria-required="true" placeholder="Describe your own tasks, contributions, tools used, decisions, or responsibilities."></textarea>
+    <p class="help">Focus on specific actions rather than what the entire group accomplished.</p>
+
+    <h2 style="margin-top:28px;">Employer requirements</h2>
+
+    <label for="requirements">Enter skills or requirements from a relevant job description <span aria-hidden="true">*</span></label>
+    <textarea id="requirements" required="" aria-required="true" placeholder="Example: Data analysis, Excel, communication, teamwork, critical thinking, presentation skills"></textarea>
+    <p class="help">You can enter a comma-separated list or paste a short section of a job description.</p>
+    <p class="help"><span aria-hidden="true">*</span> All fields are required.</p>
+
+    <div id="errorSummary" class="error-summary" role="alert" tabindex="-1" aria-live="assertive" style="display: none;"></div>
+
+    <button type="submit">Explore Skill Alignment</button>
+  </form>
+
+  <section id="results" class="card" aria-live="polite" style="display: block;">
+    <h2>Your Skills Alignment</h2>
+    <p id="projectOutput">Experience reviewed: Introduction to Marketing – Market Analysis Project</p>
+    <div id="alignmentOutput">
+          <div class="skill-row">
+            <h3>Data Analysis</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div>
+          <div class="skill-row">
+            <h3>Excel</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div>
+          <div class="skill-row">
+            <h3>Communication</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div>
+          <div class="skill-row">
+            <h3>Teamwork</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div>
+          <div class="skill-row">
+            <h3>Critical Thinking</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div>
+          <div class="skill-row">
+            <h3>Presentation Skills</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div></div>
+
+    <div class="reflection">
+      <h2>Reflection</h2>
+      <ol>
+        <li>Which employer-requested skill can you support with the strongest evidence from your experience?</li>
+        <li>Which skill needs stronger evidence or additional development?</li>
+        <li>How would you describe one of these skills to an employer using a specific example from your experience?</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<script>
+const skillPatterns = {
+  "communication": ["communicat", "present", "wrote", "writing", "discuss", "explain", "report"],
+  "teamwork": ["team", "collaborat", "group", "partner"],
+  "critical thinking": ["analy", "evaluat", "compare", "recommend", "problem", "interpret"],
+  "technology": ["excel", "software", "technology", "digital", "system", "platform", "tool"],
+  "data analysis": ["data", "analy", "trend", "spreadsheet", "excel", "quant"],
+  "project management": ["project", "plan", "schedule", "deadline", "coordinate", "manage"],
+  "leadership": ["lead", "led", "facilitat", "direct", "mentor", "coordinate"],
+  "professionalism": ["professional", "deadline", "responsib", "client", "stakeholder"],
+  "adaptability": ["adapt", "adjust", "change", "learned", "new tool", "new system"]
+};
+
+function splitRequirements(text) {
+  return text
+    .replace(/\n+/g, ",")
+    .split(/,|;/)
+    .map(item => item.trim())
+    .filter(Boolean)
+    .map(item => item.replace(/^(and|or)\s+/i, "").trim())
+    
+    .map(item => item.replace(/[.!?]+$/, "").trim()).filter(Boolean);
+}
+
+function displayName(skill) {
+  return skill.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function evidenceTermsFor(requirement) {
+  const normalized = requirement.toLowerCase().trim();
+
+  if (skillPatterns[normalized]) return skillPatterns[normalized];
+
+  const aliases = {
+    "excel": ["excel", "spreadsheet"],
+    "presentation skills": ["present", "presented", "presentation"],
+      "presentation": ["present", "presented", "presentation"],
+    "presentations": ["present", "presentation", "presented"]
+  };
+  if (aliases[normalized]) return aliases[normalized];
+
+  const stopWords = new Set([
+    "and","or","the","a","an","of","to","in","with","for",
+    "skills","skill","ability","experience","knowledge","proficiency"
+  ]);
+
+  return normalized
+    .split(/\s+/)
+    .map(word => word.replace(/[^a-z0-9+#.-]/g, ""))
+    .filter(word => word.length >= 3 && !stopWords.has(word));
+}
+
+function hasEvidence(requirement, evidenceText) {
+  const terms = evidenceTermsFor(requirement);
+  return terms.some(term => evidenceText.includes(term.toLowerCase()));
+}
+
+document.getElementById("alignmentForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const project = document.getElementById("project").value.trim();
+  const experience = document.getElementById("experience").value.trim();
+  const actions = document.getElementById("actions").value.trim();
+  const requirements = document.getElementById("requirements").value.trim();
+
+  const fields = [
+    { id: "project", label: "Course or project name", value: project,
+      reason: "This identifies the educational experience being reviewed." },
+    { id: "experience", label: "Educational experience", value: experience,
+      reason: "This provides context for the assignment or project." },
+    { id: "actions", label: "What you personally did", value: actions,
+      reason: "Your personal contribution is necessary to make evidence-based connections between your own experience and workforce skills." },
+    { id: "requirements", label: "Employer requirements", value: requirements,
+      reason: "These requirements are needed to compare your experience with skills requested by an employer." }
+  ];
+
+  fields.forEach(field => {
+    const el = document.getElementById(field.id);
+    el.classList.remove("field-error");
+    el.removeAttribute("aria-invalid");
+  });
+
+  const missing = fields.filter(field => !field.value);
+  const errorSummary = document.getElementById("errorSummary");
+
+  if (missing.length) {
+    document.getElementById("results").style.display = "none";
+    errorSummary.innerHTML =
+      "<strong>Please complete the required information before exploring skill alignment.</strong>" +
+      "<ul>" +
+      missing.map(field => "<li><strong>" + field.label + ":</strong> " + field.reason + "</li>").join("") +
+      "</ul>";
+    errorSummary.style.display = "block";
+
+    missing.forEach(field => {
+      const el = document.getElementById(field.id);
+      el.classList.add("field-error");
+      el.setAttribute("aria-invalid", "true");
+    });
+
+    errorSummary.focus();
+    return;
+  }
+
+  errorSummary.style.display = "none";
+  errorSummary.innerHTML = "";
+
+  const evidenceText = (experience + " " + actions).toLowerCase();
+  const skills = splitRequirements(requirements);
+  const output = document.getElementById("alignmentOutput");
+
+  if (!skills.length) {
+    output.innerHTML = "<p>No employer requirements were identified. Review the requirements you entered and try again.</p>";
+  } else {
+    output.innerHTML = skills.map(skill => {
+      if (hasEvidence(skill, evidenceText)) {
+        return `
+          <div class="skill-row">
+            <h3>${displayName(skill)}</h3>
+            <p><span class="status possible">Possible alignment — review your evidence</span></p>
+            <p>Your description contains language that may relate to this employer-requested skill. Identify the specific action or result that best demonstrates it before claiming the skill.</p>
+          </div>`;
+      }
+
+      return `
+        <div class="skill-row">
+          <h3>${displayName(skill)}</h3>
+          <p><span class="status gap">Evidence not clearly identified</span></p>
+          <p>Your description does not provide clear evidence for this requirement. Consider whether another educational experience demonstrates it or whether this is an area for additional development.</p>
+        </div>`;
+    }).join("");
+  }
+
+  document.getElementById("projectOutput").textContent = "Experience reviewed: " + project;
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+});
+</script>
+
+</body></html>
